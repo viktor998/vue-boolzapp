@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="./assets/css/master.css">
+    <title>Boolzapp</title>
+</head>
+<body>
+    <div class="bg-color">
+        <div class="bg-green"></div>
+        <div class="bg-grey"></div>
+    </div>
+    
+    <div id="root">
+       
+        
+        <div class="container">
+           <div class="head">
+            <div class="left-head">
+                <div class="profile-picture">
+                    <img src="./assets/img/avatar_io.jpg" alt="" srcset="">
+                </div>
+                <div class="icons">
+                    <i class="fas fa-circle-notch"></i>
+                <i class="fas fa-comment-alt"></i>
+                <i class="fas fa-ellipsis-v"></i>
+                </div>
+            </div>
+            <div class="right-head">
+                <div v-for='(contact) in contacts' v-if= 'contacts.length && contact.visible == true ' class="profile-picture user">
+                    <div class=".profile-picture">
+                        <img    :src="contact.customUrl" alt="">
+                    </div>
+                    <span>{{ contact.name }}</span>
+                    
+                </div>
+            </div>
+           </div>
+           
+
+           <div class="main">
+               <div class="left-main">
+                   <div class="bell">
+                        <i class="fas fa-bell-slash"></i>
+                        <h6>
+                            Ricevi notifiche di nuovi messaggi
+                            <p>Attiva notifiche desktop</p>
+                        </h6>
+                   </div>
+                   <div class="search">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Cerca o inizia una nuova chat">
+                   </div>
+                    <ul >
+                
+                        <li   v-for='(contact,index) in contacts' :class="(contact.visible) ? active : '' " @click='selectChat(contact, index);'>
+                            
+                            <div class="profile-picture">
+                                <img   :src="contact.customUrl" >
+                            </div>
+                            <span>{{ contact.name }}</span>
+                            <!-- <span v-for='message in contact.messages' v-if='message.status == sent'> {{message.text}} </span> -->
+                            
+                        </li>
+                    </ul>
+               </div>
+
+               <div class="right-main">
+                   <div v-for='contact in contacts' class="sms" v-if = 'contact.visible==true'>
+                       <div v-for='message in contact.messages' class="messages">
+                           <div :class= '(message.status == sent) ? sent: received'>
+                            <p >
+                                {{ message.text }}
+                            </p>
+                        </div>
+                           
+                        
+                       </div>
+                   </div>
+
+                   <div v-for='(contact, i) in contacts' :class="(contact.visible == false) ? displayNone: ''" class="bottom-input">
+                        <div class="emoji"><i class="fas fa-smile"></i></div>
+                        <input v-model='smsToSend' type="text" placeholder="Scrivi un messaggio" @keyup.enter='send(contact, i)'>
+                        <div class="rec"><i class="fas fa-microphone"></i></div>
+                    </div>
+               </div>
+           </div>
+        </div>
+        
+
+      
+            
+            
+
+       
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="./assets/js/dati.js"></script>
+    <script src="./assets/js/main.js"></script>
+</body>
+</html>
