@@ -34,8 +34,10 @@
                     <div class=".profile-picture">
                         <img    :src="contact.customUrl" alt="">
                     </div>
-                    <span>{{ contact.name }}</span>
-                    
+                    <div class="lastAccess">
+                        <span>{{ contact.name }}</span>
+                        <span >Ultimo accesso oggi alle  {{smsDate(contact.messages[contact.messages.length -1 ].date)}} </span>
+                    </div>
                 </div>
             </div>
            </div>
@@ -61,8 +63,11 @@
                             <div class="profile-picture">
                                 <img   :src="contact.customUrl" >
                             </div>
-                            <span>{{ contact.name }}</span>
-                            <!-- <span v-for='message in contact.messages' v-if='message.status == sent'> {{message.text}} </span> -->
+                            <div class="lastSms">
+                                <span>{{ contact.name }}</span>
+                                <span  > {{contact.messages[contact.messages.length -1 ].text}} </span>
+                                
+                            </div>
                             
                         </li>
                     </ul>
@@ -72,10 +77,12 @@
                    <div v-for='contact in contacts' class="sms" v-if = 'contact.visible==true'>
                        <div v-for='message in contact.messages' class="messages">
                            <div :class= '(message.status == sent) ? sent: received'>
-                            <p >
-                                {{ message.text }}
-                            </p>
-                        </div>
+                                <p >
+                                    {{ message.text }}
+                                    
+                                </p>
+                                <span class="date">{{ smsDate(message.date) }}</span>
+                            </div>
                            
                         
                        </div>
