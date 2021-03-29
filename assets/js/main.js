@@ -130,6 +130,22 @@ var app = new Vue({
             let hours = nDate.getHours();
             let minutes = nDate.getMinutes();
             return `${hours}:${minutes}`
+        },
+        removeSms: function(message, i){
+            console.log(message, i)
+            this.contacts.forEach((item)=>{
+                let index= i;
+                if(item.messages.indexOf(message) != -1){
+                    item.messages.splice(index, 1)
+                    
+                   
+                }if(index== 0){
+                    item.messages.splice(0)
+                }
+            })
+            
+            
+            
         }
 
     }

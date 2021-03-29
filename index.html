@@ -95,9 +95,9 @@
                </div>
 
                 <div class="right-main">
-                    <div v-for='contact in contacts'  class="sms" v-if = 'contact.visible==true'>
-                        <div v-if="userToSearch == ''" v-for='message in contact.messages' class="messages">
-                           <div :class= '(message.status == sent) ? sent: received'>
+                    <div v-for='(contact, i) in contacts'  class="sms" v-if = 'contact.visible==true'>
+                        <div v-if="userToSearch == ''" v-for='(message, i) in contact.messages' class="messages">
+                           <div :class= '(message.status == sent) ? sent: received' @click='removeSms(message, i)'>
                                 <p >
                                     {{ message.text }}
                                     
@@ -116,7 +116,7 @@
 
                     <div v-for='contact in searchFilter'  class="sms" v-if = 'contact.visible==true'>
                         <div v-if="userToSearch != ''" v-for='message in contact.messages' class="messages">
-                           <div :class= '(message.status == sent) ? sent: received'>
+                           <div :class= '(message.status == sent) ? sent: received' @click='removeSms'>
                                 <p >
                                     {{ message.text }}
                                     
