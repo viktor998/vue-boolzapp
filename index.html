@@ -30,7 +30,17 @@
                 </div>
             </div>
             <div class="right-head">
-                <div v-for='(contact) in contacts' v-if= 'contacts.length && contact.visible == true ' class="profile-picture user">
+                <div v-for='(contact) in contacts' v-if= "contacts.length && contact.visible == true && userToSearch == ''" class="profile-picture user">
+                    <div class=".profile-picture">
+                        <img    :src="contact.customUrl" alt="">
+                    </div>
+                    <div class="lastAccess">
+                        <span>{{ contact.name }}</span>
+                        <span >Ultimo accesso oggi alle  {{smsDate(contact.messages[contact.messages.length -1 ].date)}} </span>
+                    </div>
+                </div>
+
+                <div v-for='(contact) in searchFilter' v-if= "searchFilter.length && contact.visible == true && userToSearch != '' " class="profile-picture user">
                     <div class=".profile-picture">
                         <img    :src="contact.customUrl" alt="">
                     </div>
@@ -54,11 +64,11 @@
                    </div>
                    <div class="search">
                         <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Cerca o inizia una nuova chat">
+                        <input v-model='userToSearch' type="text" placeholder="Cerca o inizia una nuova chat">
                    </div>
-                    <ul >
+                    <ul>
                 
-                        <li   v-for='(contact,index) in contacts' :class="(contact.visible) ? active : '' " @click='selectChat(contact, index);'>
+                        <li v-if="userToSearch == ''" v-for='(contact,index) in contacts' :class="(contact.visible) ? active : '' " @click='selectChat(contact, index);'>
                             
                             <div class="profile-picture">
                                 <img   :src="contact.customUrl" >
@@ -70,12 +80,23 @@
                             </div>
                             
                         </li>
+
+                        <li v-if=" userToSearch != '' " v-for= '(user, index) in searchUser'  :class="(user.visible) ? active : '' "  @click='selectChatFilter(user, index);'>
+                            <div class="profile-picture">
+                                <img   :src="user.customUrl" >
+                            </div>
+                            <div class="lastSms">
+                                <span>{{ user.name }}</span>
+                                <span  > {{user.messages[user.messages.length -1 ].text}} </span>
+                                
+                            </div>
+                        </li>
                     </ul>
                </div>
 
-               <div class="right-main">
-                   <div v-for='contact in contacts' class="sms" v-if = 'contact.visible==true'>
-                       <div v-for='message in contact.messages' class="messages">
+                <div class="right-main">
+                    <div v-for='contact in contacts'  class="sms" v-if = 'contact.visible==true'>
+                        <div v-if="userToSearch == ''" v-for='message in contact.messages' class="messages">
                            <div :class= '(message.status == sent) ? sent: received'>
                                 <p >
                                     {{ message.text }}
@@ -88,8 +109,29 @@
                             </div>
                            
                         
-                       </div>
-                   </div>
+                        </div>
+
+                        
+                    </div>
+
+                    <div v-for='contact in searchFilter'  class="sms" v-if = 'contact.visible==true'>
+                        <div v-if="userToSearch != ''" v-for='message in contact.messages' class="messages">
+                           <div :class= '(message.status == sent) ? sent: received'>
+                                <p >
+                                    {{ message.text }}
+                                    
+                                </p>
+                                <div class="box">
+                                    <span class="date">{{ smsDate(message.date) }}</span>
+                                </div>
+                                
+                            </div>
+                           
+                        
+                        </div>
+
+                        
+                    </div>
 
                    <div v-for='(contact, i) in contacts' :class="(contact.visible == false) ? displayNone: ''" class="bottom-input">
                         <div class="emoji"><i class="fas fa-smile"></i></div>
@@ -97,7 +139,7 @@
                         <div class="rec"><i class="fas fa-microphone"></i></div>
                     </div>
                </div>
-           </div>
+            </div>
         </div>
         
 

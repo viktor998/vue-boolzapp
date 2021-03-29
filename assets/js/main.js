@@ -7,7 +7,38 @@ var app = new Vue({
         received: 'received',
         displayNone: 'display-none',
         smsToSend: '',
-        contacts: contacts
+        contacts: contacts,
+        searchFilter: [],
+        userToSearch: '',
+    },
+    computed: {
+        searchUser: function(){
+            // this.contacts.forEach((item)=>{
+            //     if(this.userToSearch == item.name){
+            //         console.log(this.userToSearch)
+            //        return item.hide()
+            //     }
+            // })
+            var contacts = this.contacts,
+            userToSearch = this.userToSearch;
+
+            if(!userToSearch){
+                return contacts;
+            }
+
+            userToSearch = userToSearch.trim().toLowerCase();
+
+            contacts = contacts.filter(item => {
+                if(item.name.toLowerCase().indexOf(userToSearch) !== -1){
+                    console.log(item.name.toLowerCase().indexOf(userToSearch))
+                    
+                    return item;
+                }
+            })
+            this.searchFilter= contacts
+            
+            return contacts;
+        }
     },
 
 
@@ -36,11 +67,30 @@ var app = new Vue({
             // this.contacts.visible = true;
             this.contacts= this.contacts.map((item, i)=>{
                 if(index == i){
+                    
                     return ({...item, visible: true});
                 }
                 return item
             })
         },
+
+        selectChatFilter: function(contact, index){
+            this.searchFilter.forEach((item) => {
+                item.visible = false;
+
+
+            });
+            // console.log(this.contacts.visible)
+            // this.contacts.visible = true;
+            this.searchFilter= this.searchFilter.map((item, i)=>{
+                if(index == i){
+                    
+                    return ({...item, visible: true});
+                }
+                return item
+            })
+        },
+
         send: function(contact, i){
             let currDate = new Date();
             let month = currDate.getMonth();
