@@ -186,11 +186,16 @@ ul li:hover{
 
 .sent , .received {
     display: flex;
-    flex-direction: column;
     padding: 10px;
     border-radius: 10px;
     margin: 10px;
     position: relative;
+}
+
+.box{
+    height: 30px;
+    display: flex;
+    align-items: flex-end;
 }
 
 .date{

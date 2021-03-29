@@ -7,10 +7,10 @@ var app = new Vue({
         received: 'received',
         displayNone: 'display-none',
         smsToSend: '',
-        contacts: contacts   
+        contacts: contacts
     },
- 
-  
+
+
     created(){
         this.contacts.forEach((item, index) => {
             item.visible = false;
@@ -18,19 +18,19 @@ var app = new Vue({
                 ...item,
                 customUrl:   './assets/img/avatar'+ item.avatar + '.jpg'
             }
-            
+
             this.contacts[index] = url;
             index++;
-            
+
         });
-     
+
     },
     methods:{
         selectChat: function(contact, index){
             this.contacts.forEach((item) => {
                 item.visible = false;
-                
-                
+
+
             });
             // console.log(this.contacts.visible)
             // this.contacts.visible = true;
@@ -42,26 +42,38 @@ var app = new Vue({
             })
         },
         send: function(contact, i){
+            let currDate = new Date();
+            let month = currDate.getMonth();
+            let day = currDate.getDay();
+            let year = currDate.getFullYear()
+            let hours = currDate.getHours();
+            let minutes = currDate.getMinutes();
+            let seconds = currDate.getSeconds()
+
+            let sentTime = `${month}/${day}/${year} ${hours}:${minutes}:${seconds}`
+           
+           
             let objSms = {
                 text: this.smsToSend,
-                status: 'sent'
+                status: 'sent',
+                date: sentTime
             }
 
             let index= this.contacts.indexOf(contact);
             this.contacts[index].messages.push(objSms)
             this.smsToSend= '';
 
-
             let objReceive= {
                 text: 'ok',
-                status: 'received'
+                status: 'received',
+                date: sentTime
 
             }
             setTimeout(() => {
                 console.log((this).contacts)
                this.contacts[index].messages.push(objReceive)
             }, 1000)
-            
+
         },
         smsDate: function(date){
             let nDate = new Date(date);
@@ -69,6 +81,6 @@ var app = new Vue({
             let minutes = nDate.getMinutes();
             return `${hours}:${minutes}`
         }
-       
+
     }
 })
