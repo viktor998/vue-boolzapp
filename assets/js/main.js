@@ -10,7 +10,9 @@ var app = new Vue({
         contacts: contacts,
         searchFilter: [],
         userToSearch: '',
+        getLastDate: [],
     },
+    
     computed: {
         searchUser: function(){
             // this.contacts.forEach((item)=>{
@@ -58,18 +60,14 @@ var app = new Vue({
     },
     methods:{
         selectChat: function(contact, index){
-            this.contacts.forEach((item) => {
-                item.visible = false;
-
-
-            });
-            // console.log(this.contacts.visible)
-            // this.contacts.visible = true;
             this.contacts= this.contacts.map((item, i)=>{
-                if(index == i){
-                    
-                    return ({...item, visible: true});
+                if(i == index){
+                    item.visible = true;
+                }else{
+                    item.visible = false;
                 }
+                    
+                    
                 return item
             })
         },
@@ -80,8 +78,7 @@ var app = new Vue({
 
 
             });
-            // console.log(this.contacts.visible)
-            // this.contacts.visible = true;
+
             this.searchFilter= this.searchFilter.map((item, i)=>{
                 if(index == i){
                     
@@ -110,7 +107,8 @@ var app = new Vue({
             }
 
             let index= this.contacts.indexOf(contact);
-            this.contacts[index].messages.push(objSms)
+            this.contacts[index].messages.push(objSms);
+          
             this.smsToSend= '';
 
             let objReceive= {
@@ -122,29 +120,31 @@ var app = new Vue({
             setTimeout(() => {
                 console.log((this).contacts)
                this.contacts[index].messages.push(objReceive)
-            }, 1000)
+            }, 2000)
 
         },
         smsDate: function(date){
             let nDate = new Date(date);
             let hours = nDate.getHours();
             let minutes = nDate.getMinutes();
+            // this.getLastDate.push(lDate)
+          
             return `${hours}:${minutes}`
         },
+        // lastAccessDate: function(messages ){
+        //     let message = messages;
+        //     let currIndex = messages.length -1;
+        //     this.getLastDate.push(message[currIndex].date)
+        //     console.log(this.getLastDate)
+        // },
         removeSms: function(message, i){
             console.log(message, i)
             this.contacts.forEach((item)=>{
                 let index= i;
                 if(item.messages.indexOf(message) != -1){
-                    item.messages.splice(index, 1)
-                    
-                   
-                }if(index== 0){
-                    item.messages.splice(0)
+                    item.messages.splice(index, 1)                   
                 }
             })
-            
-            
             
         }
 
