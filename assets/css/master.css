@@ -117,8 +117,12 @@
     background-color: aliceblue;
     color: rgba(0, 204, 255, 0.712);
 }
+h6{
+    display: flex;
+    flex-direction: column;
+}
 
-h6 p{
+h6 span{
     font-weight: 500;
     text-decoration: underline;
 }

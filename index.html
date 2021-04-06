@@ -21,7 +21,7 @@
            <div class="head">
             <div class="left-head">
                 <div class="profile-picture">
-                    <img src="./assets/img/avatar_io.jpg" alt="" srcset="">
+                    <img src="./assets/img/avatar_io.jpg" >
                 </div>
                 <div class="icons">
                     <i class="fas fa-circle-notch"></i>
@@ -32,7 +32,7 @@
             <div class="right-head">
                 <div v-for='(contact) in contacts' v-if= "contacts.length && contact.visible == true" class="profile-picture user">
                     <div class=".profile-picture">
-                        <img    :src="contact.customUrl" alt="">
+                        <img    :src="contact.customUrl" >
                     </div>
                     <div class="lastAccess">
                         <span>{{ contact.name }}</span>
@@ -50,7 +50,7 @@
                         <i class="fas fa-bell-slash"></i>
                         <h6>
                             Ricevi notifiche di nuovi messaggi
-                            <p>Attiva notifiche desktop</p>
+                            <span>Attiva notifiche desktop</span>
                         </h6>
                    </div>
                    <div class="search">
