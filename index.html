@@ -13,10 +13,10 @@
         <div class="bg-green"></div>
         <div class="bg-grey"></div>
     </div>
-    
+
     <div id="root">
-       
-        
+
+
         <div class="container">
            <div class="head">
             <div class="left-head">
@@ -42,7 +42,7 @@
 
             </div>
            </div>
-           
+
 
            <div class="main">
                <div class="left-main">
@@ -58,40 +58,58 @@
                         <input v-model='userToSearch' type="text" placeholder="Cerca o inizia una nuova chat">
                    </div>
                     <ul>
-                
+
                         <li v-if="contact.name.toLowerCase().includes(userToSearch.toLowerCase())" v-for='(contact,index) in contacts '  :class="(contact.visible) ? active : '' " @click='selectChat(contact, index);'>
-                            
+
                             <div class="profile-picture">
                                 <img   :src="contact.customUrl" >
                             </div>
                             <div class="lastSms">
                                 <span>{{ contact.name }}</span>
                                 <span  v-if=' contact.messages.length '> {{contact.messages[contact.messages.length -1 ].text}} </span>
-                                
+
                             </div>
-                            
+
                         </li>
                     </ul>
                </div>
 
-                <div class="right-main">
-                    <div v-for='(contact, i) in contacts'  class="sms" v-if = 'contact.visible==true'>
+                <div class="right-main" >
+                    <div v-for='(contact, i) in contacts'  class="sms" v-if = 'contact.visible==true' >
                         <div  v-for='(message, i) in contact.messages' class="messages">
-                           <div :class= '(message.status == "sent") ? "sent": "received"' @click='removeSms(message, i)'>
-                                <p >
-                                    {{ message.text }}       
+                           <div :class= '(message.status == "sent") ? "sent": "received"'   @click="toShow(message, i)" @mouseenter= "hide= false" >
+                                <p  >
+                                    {{ message.text }}
+                                    
                                 </p>
-                                <div class="box">
+                                <div class="box" >
+                                    <i class="fas fa-angle-down" ></i>
+                                    <div ref= "elementHidden" class="display-none" @mouseleave="hide = true" :class="(hide)? '': 'display-flex' "> 
+                                        <div  class= 'items ' >
+                                            <div  class="delete " @click='removeSms(message, i)'>
+                                                <span >delete</span>
+                                                
+                                            </div>
+                                            <div class="info ">
+                                                <span >info</span>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+
                                     <span class="date" >{{ smsDate(message.date) }}</span>
                                 </div>
-                                
+                                <!--  -->
                             </div>
-                      
+
                         </div>
+                       
+                        
 
                     </div>
 
-                   <div v-for='(contact, i) in contacts' :class="(contact.visible == false) ? displayNone: ''" class="bottom-input">
+                   <div v-for='(contact, i) in contacts' :class="(contact.visible == false) ? 'display-none': ''" class="bottom-input">
                         <div class="emoji"><i class="fas fa-smile"></i></div>
                         <input v-model='smsToSend' type="text" placeholder="Scrivi un messaggio" @keyup.enter='send(contact, i)'>
                         <div class="rec"><i class="fas fa-microphone"></i></div>
@@ -99,15 +117,15 @@
                </div>
             </div>
         </div>
-        
 
-      
-            
-            
 
-       
+
+
+
+
+
     </div>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="./assets/js/dati.js"></script>
     <script src="./assets/js/main.js"></script>

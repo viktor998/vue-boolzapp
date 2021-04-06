@@ -5,22 +5,16 @@ var app = new Vue({
         active: 'active',
         sent: 'sent',
         received: 'received',
-        displayNone: 'display-none',
         smsToSend: '',
         contacts: contacts,
         searchFilter: [],
         userToSearch: '',
-        getLastDate: [],
+        hide: false,
     },
     
     computed: {
         searchUser: function(){
-            // this.contacts.forEach((item)=>{
-            //     if(this.userToSearch == item.name){
-            //         console.log(this.userToSearch)
-            //        return item.hide()
-            //     }
-            // })
+         
             var contacts = this.contacts,
             userToSearch = this.userToSearch;
 
@@ -49,11 +43,18 @@ var app = new Vue({
             item.visible = false;
             let url ={
                 ...item,
-                customUrl:   './assets/img/avatar'+ item.avatar + '.jpg'
+                customUrl:   './assets/img/avatar'+ item.avatar + '.jpg',
+                
             }
 
             this.contacts[index] = url;
             index++;
+          
+        });
+        this.contacts.forEach((item, index) => {
+            item.messages.forEach((message)=>{
+                message.hidden = true;
+            })
 
         });
 
@@ -121,32 +122,36 @@ var app = new Vue({
                 console.log((this).contacts)
                this.contacts[index].messages.push(objReceive)
             }, 2000)
-
+            console.log(this.contacts)
         },
         smsDate: function(date){
             let nDate = new Date(date);
             let hours = nDate.getHours();
             let minutes = nDate.getMinutes();
-            // this.getLastDate.push(lDate)
           
             return `${hours}:${minutes}`
         },
-        // lastAccessDate: function(messages ){
-        //     let message = messages;
-        //     let currIndex = messages.length -1;
-        //     this.getLastDate.push(message[currIndex].date)
-        //     console.log(this.getLastDate)
-        // },
+        toShow: function(message, i){
+            if(this.$refs.elementHidden[i] != undefined){
+               
+                this.$refs.elementHidden[i].classList.remove("display-none");
+                this.$refs.elementHidden[i].classList.add("display-flex");
+            }
+           
+        },
+ 
         removeSms: function(message, i){
-            console.log(message, i)
+         
+            this.$refs.elementHidden[i] == '';
             this.contacts.forEach((item)=>{
                 let index= i;
                 if(item.messages.indexOf(message) != -1){
                     item.messages.splice(index, 1)                   
                 }
+     
             })
             
-        }
-
+        },
+       
     }
 })
